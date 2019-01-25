@@ -361,9 +361,6 @@ def generate_condensed_pdf(period=None, close_files=False):
 
             document = get_weasyprint_document(report_book_html_content)
 
-            with open("test.html", "w+") as test:
-                test.write(report_book_html_content)
-
             return ReportCover(sections, document)
 
     
@@ -412,6 +409,3 @@ def generate_condensed_pdf(period=None, close_files=False):
 
                     yield CondensedPage(section, mapping_images, page_mapping, i)
 
-    #-------------------
-    with open('latest_report.pdf', 'wb') as temp:
-        temp.write(ReportCover.assemble_report())
