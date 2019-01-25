@@ -1,0 +1,10 @@
+<html>
+    <head>
+        {% block extra_css %}
+        {% endblock extra_css %}
+    </head>
+    <body class="booklet data {% block page_orientation %}portrait{% endblock page_orientation %}">
+        {% block table_content %}
+        {% endblock table_content %}
+    </body>
+</html>

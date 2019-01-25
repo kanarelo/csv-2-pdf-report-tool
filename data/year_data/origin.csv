@@ -1,0 +1,32 @@
+legacy_id,region,zone,is_comp_week,is_comp_period,is_comp_quarter,is_comp_year
+dix30,GMA,Quebec,True,True,True,True
+anjou,GMA,Quebec,True,True,True,False
+uppercanada,GTA,Ontario,True,True,False,False
+rivieres,REGIONAL_QC,Quebec,True,True,True,False
+sherway,GTA,Ontario,True,True,True,False
+mtltrust,GMA,Quebec,True,True,True,True
+massonville,REGIONAL_ON,Ontario,True,True,True,True
+oshawa,GTA,Ontario,True,True,True,False
+chicoutimi,REGIONAL_QC,Quebec,False,False,False,False
+scarborough,GTA,Ontario,True,True,True,False
+Fairview,GMA,Quebec,True,True,True,True
+stefoy,GQA,Quebec,False,False,False,False
+vaughan,GTA,Ontario,False,False,False,False
+ottawa,GOA,Ontario,True,True,True,True
+gcapitale,GQA,Quebec,True,True,False,False
+marketmall,GCA,Alberta,False,False,False,False
+pacificcentre,GVA,British Columbia,False,False,False,False
+polopark,GWA,Manitoba,False,False,False,False
+gatineau,GOA,Quebec,False,False,False,False
+sherbrooke,REGIONAL_QC,Quebec,False,False,False,False
+stbruno,GMA,Quebec,False,False,False,False
+limeridge,GTA,Ontario,True,True,True,False
+westedmonton,GEA,Alberta,False,False,False,False
+cathedrale,GMA,Quebec,False,False,False,False
+chateau,GMA,Quebec,True,True,True,True
+laval,GMA,Quebec,True,True,True,True
+mapleview,GTA,Ontario,False,False,False,False
+eatonto,GTA,Ontario,True,True,True,True
+guildford,GVA,British Columbia,False,False,False,False
+squareone,GTA,Ontario,False,False,False,False
+bayshore,GOA,Ontario,True,True,True,False

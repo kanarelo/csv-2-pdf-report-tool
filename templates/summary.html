@@ -1,0 +1,38 @@
+{% extends "templates/base.html" %}
+
+{% block page_orientation %}landscape{% endblock page_orientation %}
+
+{% block table_content %}
+    <table class="data-table summary">
+        <thead>
+            <tr>
+                <th>Etiquettes de lignes</th>
+                <th class="digit">Retail Traffic per Store</th>
+                <th class="digit">Retail Orders per Store</th>
+                <th class="digit">Conversion</th>
+                <th class="digit">Retail Sales $(CAD) Per Store</th>
+                <th class="digit">Average order sales per store</th>
+                <th class="digit">Retail units per store</th>
+                <th class="digit">UPT</th>
+                <th class="digit">Traffic Per Worked Hour</th>
+                <th class="digit">Sales Per Worked Hour</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+                <tr class="title-header-{{ row.level }}">
+                    <td class="label">{{ row.store }}</td>
+                    <td class="digit section-end">{{ "{:,.0f}".format(row.get("traffic", 0)|float) }}</td>
+                    <td class="digit section-end">{{ "{:,.0f}".format(row.get("orders", 0)|float) }}</td>
+                    <td class="digit section-end">{{ "{:,.2f}%".format((row.get("conversion", 0)|float) * 100) }}</td>
+                    <td class="digit section-end">{{ "${:,.2f}".format(row.get("sales", 0)|float) }}</td>
+                    <td class="digit section-end">{{ "${:,.2f}".format(row.get("dpt", 0)|float) }}</td>
+                    <td class="digit section-end">{{ "{:,.0f}".format(row.get("units", 0)|float) }}</td>
+                    <td class="digit section-end">{{ "{:,.2f}".format(row.get("upt", 0)|float) }}</td>
+                    <td class="digit section-end">{{ "{:,.0f}".format(row.get("tphw", 0)|float) }}</td>
+                    <td class="digit section-end">{{ "{:,.0f}".format(row.get("sphw", 0)|float) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock table_content %}

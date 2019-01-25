@@ -1,0 +1,89 @@
+html {
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+table{
+    border-spacing:0;
+    border-collapse:collapse
+}
+td,th{
+    padding:0
+}
+@media print{
+    *,:after,:before{
+        color:#000!important;
+        text-shadow:none!important;
+        background:0 0!important;
+        -webkit-box-shadow:none!important;
+        box-shadow:none!important
+    }
+    a,a:visited{
+        text-decoration:underline
+    }
+    a[href]:after{content:" (" attr(href) ")"}abbr[title]:after{content:" (" attr(title) ")"}a[href^="javascript:"]:after,a[href^="#"]:after{content:""}blockquote,pre{border:1px solid #999;page-break-inside:avoid}
+    thead{display:table-header-group}
+    img,tr{page-break-inside:avoid}
+    img{max-width:100%!important}
+    .table{border-collapse:collapse!important}
+    .table td,.table th{
+        background-color:#fff!important
+    }
+    .table-bordered td,.table-bordered th{
+        border:1px solid #ddd!important
+    }
+}
+table{
+    background-color:transparent;
+    font-size: 12px;
+}
+th{
+    text-align:left
+}
+.table{
+    width:100%;
+    max-width:100%;
+    margin-bottom:20px
+}
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th{
+    padding:6px 4px;
+    line-height:1.42857143;
+    vertical-align:top;
+    border-top:1px solid #ddd;
+}
+.table>thead>tr>th{
+    vertical-align:bottom;
+    border-bottom:2px solid #ddd;
+    background-color: #2C75B5;
+    color: #fff;
+}
+.table>thead>tr>th.digit{
+    text-align: right;
+}
+.title-header-1 {
+    background-color: #93C3ED;
+    color: white;
+    padding-left: 7.5px;
+}
+.title-header-2 {
+    background-color: #DBEBFA;
+}
+.title-header-2 td:first-child {
+    padding-left: 20px;
+}
+.title-header-3 {
+    background-color: white;
+}
+.title-header-3 td:first-child {
+    padding-left: 30px;
+}
+.title-header-100 {
+    font-weight: 700;
+    border-top: 2px solid black;
+}
+.digit {
+    text-align: right;
+}

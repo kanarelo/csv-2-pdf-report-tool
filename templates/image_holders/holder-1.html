@@ -1,0 +1,32 @@
+<article class="{{ condensed_page.page_mapping.orientation or 'portrait' }}">
+    <div class="row">
+        <div class="column">
+            <h3 id="{{ images.get('summary').report.report_name }}-{{ condensed_page.section.period }}">
+                <span class="index">{{ images.get('summary').image_number }}</span>
+                Summary
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <div class="box">
+                <img src="{{ images.get('summary').get_base64()|safe }}">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <h3 id="{{ images.get('dz_payments').report.report_name }}-{{ condensed_page.section.period }}">
+                <span class="index">{{ images.get('dz_payments').image_number }}</span>
+                {{ images.get('dz_payments').report.get_report_meta().full_report_name }}
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <div class="box">
+                <img src="{{ images.get('dz_payments').get_base64()|safe }}">
+            </div>
+        </div>
+    </div>
+</article>

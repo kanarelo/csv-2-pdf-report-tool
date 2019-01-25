@@ -1,0 +1,31 @@
+<article class="stats-page {{ condensed_page.page_mapping.orientation or 'portrait' }}">
+    <div class="row">
+        <div class="column three">
+            <h3 id="{{ images.get('dpt').report.report_name }}-{{ condensed_page.section.period }}">
+                <span class="index">{{ images.get('dpt').image_number }}</span>
+                {{ images.get('dpt').report.get_report_meta().full_report_name }}
+            </h3>
+            <div class="box">
+                <img src="{{ images.get('dpt').get_base64()|safe }}">
+            </div>
+        </div>
+        <div class="column three">
+            <h3 id="{{ images.get('upt').report.report_name }}-{{ condensed_page.section.period }}">
+                <span class="index">{{ images.get('upt').image_number }}</span>
+                {{ images.get('upt').report.get_report_meta().full_report_name }}
+            </h3>
+            <div class="box">
+                <img src="{{ images.get('upt').get_base64()|safe }}">
+            </div>
+        </div>
+        <div class="column three">
+            <h3 id="{{ images.get('tphw').report.report_name }}-{{ condensed_page.section.period }}">
+                <span class="index">{{ images.get('tphw').image_number }}</span>
+                {{ images.get('tphw').report.get_report_meta().full_report_name }}
+            </h3>
+            <div class="box">
+                <img src="{{ images.get('tphw').get_base64()|safe }}">
+            </div>
+        </div>
+    </div>
+</article>

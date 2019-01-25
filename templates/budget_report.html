@@ -1,0 +1,76 @@
+{% extends "templates/base.html" %}
+
+{% block page_orientation %}{% if report_name in ('dz_payments', 'dz_orders') %}landscape{% else %}portrait{% endif %}{% endblock page_orientation %}
+
+{% block table_content %}
+  <table class="data-table {{ report_name }}">
+      <thead>
+         {% if display_header_groupings %}
+            <tr>
+                <th></th>
+                {% for column_grouping in display_header_groupings.keys() %}
+                    <th class="center section-end" colspan="{{ display_header_groupings[column_grouping][1] }}">{{ column_grouping }}</th>
+                {% endfor %}
+            </tr>
+          {% else %}
+            <tr>
+                <th style="height: 0.4cm" colspan="{{ (display_headers|length) + 1 }}"></th>
+            </tr>
+          {% endif %}
+          <tr>
+              <th></th>
+              {% if display_header_groupings %}
+                {% for column_grouping in display_header_groupings %}
+                    {% for header in display_header_groupings[column_grouping][0] %}
+                        <th class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">
+                            {% if 'budget_diff' == header %}
+                            {% elif header.startswith('budget_') %}
+                                {{ header.split(" ")[1] }}
+                            {% elif header %}
+                                {{ header.split(" ")[1] or header }}
+                            {% endif %}
+                        </th>
+                    {% endfor %}
+                {% endfor %}
+              {% else %}
+                {% for header in display_headers %}
+                  <th class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">
+                      {% if 'budget_diff' == header %}
+                      {% elif header.startswith('budget_') %}
+                          {{ header.split(" ")[1] }}
+                      {% elif header %}
+                          {{ header.split(" ")[1] or header }}
+                      {% endif %}
+                  </th>
+                {% endfor %}
+              {% endif %}
+          </tr>
+      </thead>
+      <tbody>
+          {% for row in rows %}
+              <tr class="title-header-{{ row.level }}">
+                  <td class="label">{{ row[label_column] }}</td>
+                  {% if display_header_groupings %}
+                    {% for column_grouping in display_header_groupings.keys() %}
+                        {% for header in display_header_groupings[column_grouping][0] %}
+                            {% if 'budget_diff' == header or 'yoy' == header %}
+                                <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ ("{:,.2f}%").format(row[header]|float) }}</td>
+                            {% else %}
+                                <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ (prefix + ("{:,.%df}" % decimal_places) + suffix).format(row[header]|float) }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                  {% else %}
+                    {% for header in display_headers %}
+                      {% if 'budget_diff' == header or 'yoy' == header %}
+                          <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ ("{:,.2f}%").format(row[header]|float) }}</td>
+                      {% else %}
+                          <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ (prefix + ("{:,.%df}" % decimal_places) + suffix).format(row[header]|float) }}</td>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+{% endblock table_content %}
