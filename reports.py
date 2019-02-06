@@ -43,8 +43,8 @@ def generate_budget_report_from_csv(
                     'retail': 'Retail', 
                     'total': 'Total'
                 }.get(item), (
-                        [x for x in display_headers if x.startswith('retail_')],
-                        sum(1 for x in display_headers if x.startswith('retail_'))
+                        [x for x in display_headers if x.startswith(f'{item}_')],
+                        sum(1 for x in display_headers if x.startswith(f'{item}_'))
                 )) for item in ('retail', 'webcs', 'total')]
     else:
         if 'budget_' in ",".join(display_headers):
