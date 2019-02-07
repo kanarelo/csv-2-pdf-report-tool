@@ -1,6 +1,4 @@
-{% extends "templates/base.html" %}
-
-{% block page_orientation %}{% if report_name in ('dz_payments', 'dz_orders') %}landscape{% else %}portrait{% endif %}{% endblock page_orientation %}
+{% extends "templates/reports/base.html" %}
 
 {% block table_content %}
   <table class="data-table {{ report_name }}">

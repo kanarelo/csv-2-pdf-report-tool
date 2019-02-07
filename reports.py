@@ -144,7 +144,7 @@ def generate_report_context(report_name, period=None, totalled_reports=None, com
     context = {
         'report_name': report_name, 
         'full_report_name': get_full_report_name(report_name)}
-    template_name = (report_name and ("%s.html" % report_name) or "summary.html")
+    template_name = (report_name and (f"{report_name}.html") or "summary.html")
     
     if period is not None:
         context['period'] = period

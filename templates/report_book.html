@@ -20,12 +20,12 @@
     <article id="main-table-of-contents">
       <h2>Table of contents</h2>
       
-      {% for section in sections %}
-        <h3><span class="section-counter {{ section.period }}">{{ loop.index }}.</span> {{ section.title }}</h3>
+      {% for booklet in booklets %}
+        <h3><span class="booklet-counter {{ booklet.period }}">{{ loop.index }}.</span> {{ booklet.title }}</h3>
         <ul>
-          {% for report_meta in section.get_report_metas() %}
+          {% for report_meta in booklet.get_report_metas() %}
             <li>
-              <a href="#{{ report_meta.short_report_name }}-{{ section.period }}">
+              <a href="#{{ report_meta.short_report_name }}-{{ booklet.period }}">
                 <span>{{ report_meta.full_report_name }}</span>
               </a>
             </li>
@@ -34,18 +34,18 @@
       {% endfor %}
     </article>
 
-    {% for section in sections %}
-      <article class="new-section">
-        <h1><span class="section-counter">Section {{ loop.index }}:</span> {{ section.title }}</h1>
+    {% for booklet in booklets %}
+      <article class="new-booklet">
+        <h1><span class="booklet-counter">Section {{ loop.index }}:</span> {{ booklet.title }}</h1>
       </article>
       
-      <article class="section-table-of-contents">
-        <h2>{{ section.title }}</h2>
+      <article class="booklet-table-of-contents">
+        <h2>{{ booklet.title }}</h2>
         
         <ul>
-          {% for report_meta in section.get_report_metas() %}
+          {% for report_meta in booklet.get_report_metas() %}
             <li>
-              <a href="#{{ report_meta.short_report_name }}-{{ section.period }}">
+              <a href="#{{ report_meta.short_report_name }}-{{ booklet.period }}">
                 <div class="item">
                   <span>{{ report_meta.full_report_name }}</span>
                 </div>
@@ -56,9 +56,7 @@
         </ul>
       </article>
       
-      {% for condensed_page in section.get_condensed_pages() %}
-          {{ condensed_page.get_html()|safe }}
-      {% endfor %}
+      {{ booklet.get_content() }}
     {% endfor %}
 
   </body>
