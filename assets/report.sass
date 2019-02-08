@@ -140,12 +140,12 @@ $grayBackground: #F8F8F8
 @page
   @bottom-right
     content: counter(page)
-    height: .65cm
+    height: .6cm
     text-align: center
-    width: .65cm
+    width: .6cm
     line-height: inherit
     border-radius: 50%
-    font-size: 10pt
+    font-size: 8pt
     font-weight: 700
     
     display: table-cell
@@ -157,18 +157,25 @@ $grayBackground: #F8F8F8
   @bottom-center
     content: string(timestamp)
     display: block
-    font-size: 7.5pt
+    font-size: 6.5pt
     text-align: center
     line-height: inherit
-    height: .65cm
+    vertical-align: top
+    margin-top: .25cm
     width: 100%
+    font-family: 'Open Sans Condensed'
+    font-weight: 300
+    font-style: italic
 
   @bottom-left
     content: string(heading)
-    font-size: 7.5pt
-    height: 1cm
-    vertical-align: middle
-    width: 100%
+    font-size: 6.5pt
+    font-weight: 600
+    width: 4cm
+    text-align: left
+    display: table
+    vertical-align: top
+    margin-top: .25cm
 
 @page:blank
   @bottom-left
@@ -301,29 +308,30 @@ html
                 
                 &.data-table
                     background-color: white
-                    font-size: 5pt
+                    font-size: 6pt
                     width: 100%
                     max-width: 100%
 
                     &.payments
-                        font-size: 8.25pt
+                        font-size: 6pt
+                    &.summary
+                        font-size: 6.5pt
                     &.orders
-                        font-size: 8.25pt
-
+                        font-size: 6pt
                     &.products
-                        font-size: 8.75pt
+                        font-size: 6pt
                     &.traffic
-                        font-size: 8.75pt
+                        font-size: 6pt
                     &.dpp
-                        font-size: 8.75pt
+                        font-size: 6pt
                     &.dpt
-                        font-size: 8.75pt
+                        font-size: 6pt
                     &.upt
-                        font-size: 8.75pt
+                        font-size: 6pt
                     &.tphw
-                        font-size: 8.75pt
+                        font-size: 6pt
                     &.sphw
-                        font-size: 8.75pt
+                        font-size: 6pt
 
                     td, th
                         padding: 0
@@ -408,7 +416,7 @@ html
 
                                 &-300 
                                     font-weight: 900
-                                    color: white
+                                    color: black
                                     background-color: $tableHeaderRow300Color
                                     text-transform: uppercase
 
@@ -437,8 +445,8 @@ html
                 float: left
                 margin-right: .25cm
                 
-                width: 13pt
-                height: 13pt
+                width: 16pt
+                height: 16pt
 
                 background: #E0E79B
                 color: black
@@ -548,6 +556,10 @@ html
                             font-size: 18pt
                             text-align: center
                             margin: 0
+
+                        h5
+                            margin-top: .25pt
+                            margin-bottom: .35pt
                         
                     hr
                         width: 50%
@@ -556,6 +568,31 @@ html
                         border-top: 2px solid #d8d8d8
                         text-align: center 
                         margin: 1cm auto
+
+                &.stats-page
+                    break-before: always
+
+                    h3
+                        font-size: 10pt
+                        margin-bottom: 0
+                        font-weight: 600
+
+                    h5
+                        font-family: 'Open Sans Condensed'
+                        font-weight: 300
+                        font-style: italic
+                        font-size: 8pt
+                        margin-top: .05cm
+                        margin-bottom: .15cm
+                        margin-left: .85cm
+
+                    hr
+                        width: 100%
+                        height: 0px
+                        border: none
+                        border-top: 2px solid #d8d8d8
+                        text-align: center 
+                        margin: 0 auto .35cm
                 
                 &#main-table-of-contents, 
                 &.section-table-of-contents
@@ -597,6 +634,8 @@ html
                         margin-top: .125cm
 
                         li
+                            margin: 0 0 .01cm 0
+
                             a
                                 font-size: 10pt
                                 color: inherit
@@ -607,33 +646,6 @@ html
                                     color: $primary
                                     content: target-counter(attr(href), page)
                                     float: right
-
-                &.section-table-of-contents
-                    ul
-                        li  
-                            margin: .5cm 0 .1cm 0
-
-                            &:first-child
-                                margin: 0 0 .1cm 0
-
-                            a
-                                font-weight: 700
-
-                                &::after
-                                    margin-top: -1.1cm
-
-                                .item
-                                    margin: 0
-                                    
-                                    &.caption
-                                        font-family: 'Open Sans Condensed'
-                                        font-weight: 300
-                                        font-style: italic
-
-                &#main-table-of-contents
-                    ul
-                        li
-                            margin: 0 0 .01cm .5cm
 
                 &#chapter
                     align-items: center

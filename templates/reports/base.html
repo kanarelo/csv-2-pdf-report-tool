@@ -1,14 +1,12 @@
-<article class="stats-page {{ condensed_page.page_mapping.orientation or 'portrait' }}">
-    <div class="row">
-        <div class="column two">
-            <h3 id="{{ report.report_name }}-{{ condensed_page.section.period }}">
-                <span class="index">{{ report.index }}</span>
-                {{ report.get_report_meta().full_report_name }}
-            </h3>
-            <div class="box">
-                {% block table_content %}
-                {% endblock table_content %}
-            </div>
-        </div>
+<article class="stats-page {{ orientation or 'portrait' }}">
+    <h3 id="{{ report_name }}-{{ period }}">
+        <span class="index">{{ report_index }}</span>
+        {{ full_report_name }}
+    </h3>
+    <h5>{{ detailed_caption }}</h5>
+    <hr />
+    <div class="box">
+        {% block table_content %}
+        {% endblock table_content %}
     </div>
 </article>

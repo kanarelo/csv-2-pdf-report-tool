@@ -5,58 +5,58 @@
     <title>Bonlook Weekly Report</title>
     <meta name="description" content="Bonlook Weekly Report">
   </head>
-  <body class="booklet" data-timestamp="{{ generated_on }} {{ generated_at }}">
+  <body class="booklet" data-timestamp="Generated on: {{ generated_on }} {{ generated_at }}">
     <article id="cover">
       <img src="{{ get_logo() | safe }}" />
       <div class="report-title">
           <h1>Fiscal Report</h1>
           <h4>{{ fiscal_period }}</h4>
+          <h5>{{ period_pct_complete }}</h5>
           <p class="timestamp">
             Generated on <strong>{{ generated_on }}</strong> at <strong>{{ generated_at }}</strong>
           </p>
       </div>
     </article>
-
-    <article id="main-table-of-contents">
-      <h2>Table of contents</h2>
-      
-      {% for booklet in booklets %}
-        <h3><span class="booklet-counter {{ booklet.period }}">{{ loop.index }}.</span> {{ booklet.title }}</h3>
-        <ul>
-          {% for report_meta in booklet.get_report_metas() %}
-            <li>
-              <a href="#{{ report_meta.short_report_name }}-{{ booklet.period }}">
-                <span>{{ report_meta.full_report_name }}</span>
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      {% endfor %}
-    </article>
+    
+    {% if booklets|length > 1 %}
+      <article id="main-table-of-contents">
+        <h2>Table of contents</h2>
+        
+        {% for booklet in booklets %}
+          <h3><span class="booklet-counter {{ booklet.period }}">{{ loop.index }}.</span> {{ booklet.title }}</h3>
+          <ul>
+            {% for report_meta in booklet.get_report_metas() %}
+              <li>
+                <a href="#{{ report_meta.short_report_name }}-{{ booklet.period }}">
+                  {{ report_meta.full_report_name }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+      </article>
+    {% endif %}
 
     {% for booklet in booklets %}
-      <article class="new-booklet">
-        <h1><span class="booklet-counter">Section {{ loop.index }}:</span> {{ booklet.title }}</h1>
+      <article class="new-section">
+        <h1><span class="section-counter {% if booklets|length == 1 %}hidden{% endif %}">Section {{ loop.index }}: </span>{{ booklet.title }}</h1>
       </article>
       
-      <article class="booklet-table-of-contents">
+      <article class="section-table-of-contents">
         <h2>{{ booklet.title }}</h2>
         
         <ul>
           {% for report_meta in booklet.get_report_metas() %}
             <li>
               <a href="#{{ report_meta.short_report_name }}-{{ booklet.period }}">
-                <div class="item">
-                  <span>{{ report_meta.full_report_name }}</span>
-                </div>
-                <div class="item caption">{{ report_meta.detailed_caption }}</div>
+                {{ report_meta.full_report_name }}
               </a>
             </li>
           {% endfor %}
         </ul>
       </article>
       
-      {{ booklet.get_content() }}
+      {{ booklet.get_content()|safe }}
     {% endfor %}
 
   </body>

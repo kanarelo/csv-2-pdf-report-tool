@@ -17,7 +17,10 @@ def get_css():
     return sass.compile(filename="assets/report.sass")
 
 def get_csv_file(report_name, period=None):
-    return read_csv_file(get_base_path() + "/%s_data/%s.csv" % ((period or 'week'), report_name))
+    return read_csv_file(f"{get_base_path()}/{(period or 'week')}_data/{report_name}.csv")
+
+def get_comps_csv_file():
+    return read_csv_file(f"{get_base_path()}/comp_data/comps.csv")
 
 def group_dz_locations(period=None):
     (locations, headers) = get_csv_file('origin_dz', period='week')

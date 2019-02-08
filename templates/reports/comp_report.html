@@ -1,0 +1,48 @@
+{% extends "templates/reports/base.html" %}
+
+{% block table_content %}
+    <table class="data-table {{ report_name }}">
+        <thead>
+            {% if display_header_groupings %}
+            <tr>
+                <th></th>
+                {% for column_grouping in display_header_groupings.keys() %}
+                    <th class="center section-end" colspan="{{ display_header_groupings[column_grouping][1] }}">{{ column_grouping }}</th>
+                {% endfor %}
+            </tr>
+            {% else %}
+            <tr>
+                <th style="height: 0.4cm" colspan="{{ (display_headers|length) + 1 }}"></th>
+            </tr>
+            {% endif %}
+            <tr>
+                <th></th>
+                {% for header in display_headers %}
+                    <th class="digit {% if 'yoy' in header %}section-end{% endif %}">
+                        {% if 'yoy' in header %}
+                            YOY
+                        {% elif header %}
+                            {{ (header.split(" ")[1] or header).capitalize() }}
+                        {% endif %}
+                    </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+                <tr class="title-header-{{ row.level }}">
+                    <td class="label">{{ row['store'] }}</td>
+                    {% for header in display_headers %}
+                        {% if 'yoy' in header %}
+                            <td class="digit section-end">{{ "{:,.2f}%".format(row[header]|float) }}</td>
+                        {% elif header in ('visits', 'units') %}
+                            <td class="digit">{{ "{0:,}".format(row[header]|int) }}</td>
+                        {% else %}
+                            <td class="digit">{{ (prefix + ("{:,.%df}" % decimal_places) + suffix).format(row[header]|float) }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock table_content %}

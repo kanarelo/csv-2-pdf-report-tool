@@ -1,90 +1,108 @@
 @font-face {
+  font-family: "Open Sans Condensed";
+  font-style: normal;
+  font-weight: 300;
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/OpenSansCondensed/OpenSansCondensed-Light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Open Sans Condensed";
+  font-style: italic;
+  font-weight: 300;
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/OpenSansCondensed/OpenSansCondensed-LightItalic.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Open Sans Condensed";
+  font-style: normal;
+  font-weight: bold;
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/OpenSansCondensed/OpenSansCondensed-Bold.ttf") format("truetype");
+}
+@font-face {
   font-family: "Nunito";
   font-style: normal;
   font-weight: 300;
-  src: local("Nunito Light"), local("Nunito-Light"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-Light.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-Light.ttf") format("truetype");
 }
 @font-face {
   font-family: "Nunito";
   font-style: italic;
   font-weight: 300;
-  src: local("Nunito Light Italic"), local("Nunito-Light"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-LightItalic.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-LightItalic.ttf") format("truetype");
 }
 @font-face {
   font-family: "Nunito";
   font-style: normal;
   font-weight: 400;
-  src: local("Nunito Regular"), local("Nunito-Regular"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-Regular.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-Regular.ttf") format("truetype");
 }
 @font-face {
   font-family: "Nunito";
   font-style: italic;
   font-weight: 400;
-  src: local("Nunito Italic"), local("Nunito-Italic"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-Italic.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-Italic.ttf") format("truetype");
 }
 @font-face {
   font-family: "Nunito";
   font-style: normal;
   font-weight: 400;
-  src: local("Nunito Bold"), local("Nunito-Bold"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-Bold.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-Bold.ttf") format("truetype");
 }
 @font-face {
   font-family: "Nunito";
   font-style: normal;
   font-weight: 600;
-  src: local("Nunito SemiBold"), local("Nunito-SemiBold"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-SemiBold.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-SemiBold.ttf") format("truetype");
 }
 @font-face {
   font-family: "Nunito";
   font-style: italic;
   font-weight: 600;
-  src: local("Nunito SemiBold"), local("Nunito-SemiBold-Italic"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-SemiBoldItalic.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-SemiBoldItalic.ttf") format("truetype");
 }
 @font-face {
   font-family: "Nunito";
   font-style: normal;
   font-weight: 700;
-  src: local("Nunito Bold"), local("Nunito-Bold"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-Bold.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-Bold.ttf") format("truetype");
 }
 @font-face {
   font-family: "Nunito";
   font-style: italic;
   font-weight: 700;
-  src: local("Nunito Bold"), local("Nunito-Bold"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-BoldItalic.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-BoldItalic.ttf") format("truetype");
 }
 @font-face {
   font-family: "Nunito";
   font-style: normal;
   font-weight: 800;
-  src: local("Nunito ExtraBold"), local("Nunito-ExtraBold"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-ExtraBold.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-ExtraBold.ttf") format("truetype");
 }
 @font-face {
   font-family: "Nunito";
   font-style: italic;
   font-weight: 800;
-  src: local("Nunito ExtraBold Italic"), local("Nunito-ExtraBold-Italic"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-ExtraBoldItalic.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-ExtraBoldItalic.ttf") format("truetype");
 }
 @font-face {
   font-family: "Nunito";
   font-style: normal;
   font-weight: 900;
-  src: local("Nunito Black"), local("Nunito-Black"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-Black.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-Black.ttf") format("truetype");
 }
 @font-face {
   font-family: "Nunito";
   font-style: normal;
   font-weight: 900;
-  src: local("Nunito Black Italic"), local("Nunito-Black-Italic"), url("/Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-BlackItalic.ttf") format("truetype");
+  src: url("file:///Users/Boss/Downloads/report_tool/assets/fonts/Nunito/Nunito-BlackItalic.ttf") format("truetype");
 }
 @page {
   @bottom-right {
     content: counter(page);
-    height: 0.65cm;
+    height: 0.6cm;
     text-align: center;
-    width: 0.65cm;
+    width: 0.6cm;
     line-height: inherit;
     border-radius: 50%;
-    font-size: 10pt;
+    font-size: 8pt;
     font-weight: 700;
     display: table-cell;
     vertical-align: middle;
@@ -92,18 +110,27 @@
     color: white;
   }
   @bottom-center {
-    content: "";
+    content: string(timestamp);
     display: block;
-    height: 0.05cm;
-    opacity: 0.5;
+    font-size: 6.5pt;
+    text-align: center;
+    line-height: inherit;
+    vertical-align: top;
+    margin-top: 0.25cm;
     width: 100%;
+    font-family: "Open Sans Condensed";
+    font-weight: 300;
+    font-style: italic;
   }
   @bottom-left {
     content: string(heading);
-    font-size: 9pt;
-    height: 1cm;
-    vertical-align: middle;
-    width: 100%;
+    font-size: 6.5pt;
+    font-weight: 600;
+    width: 4cm;
+    text-align: left;
+    display: table;
+    vertical-align: top;
+    margin-top: 0.25cm;
   }
 }
 @page :blank {
@@ -175,14 +202,12 @@
 @page landscape {
   size: A4 landscape;
 }
-@page stats {
-  @bottom-left {
-    content: none;
-  }
-}
 html {
   font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   hyphens: auto;
+}
+html body {
+  string-set: timestamp attr(data-timestamp);
 }
 html body h1 {
   font-size: 38pt;
@@ -236,9 +261,39 @@ html body.booklet table {
 }
 html body.booklet table.data-table {
   background-color: white;
-  font-size: 6.5pt;
+  font-size: 6pt;
   width: 100%;
   max-width: 100%;
+}
+html body.booklet table.data-table.payments {
+  font-size: 6pt;
+}
+html body.booklet table.data-table.summary {
+  font-size: 6.5pt;
+}
+html body.booklet table.data-table.orders {
+  font-size: 6pt;
+}
+html body.booklet table.data-table.products {
+  font-size: 6pt;
+}
+html body.booklet table.data-table.traffic {
+  font-size: 6pt;
+}
+html body.booklet table.data-table.dpp {
+  font-size: 6pt;
+}
+html body.booklet table.data-table.dpt {
+  font-size: 6pt;
+}
+html body.booklet table.data-table.upt {
+  font-size: 6pt;
+}
+html body.booklet table.data-table.tphw {
+  font-size: 6pt;
+}
+html body.booklet table.data-table.sphw {
+  font-size: 6pt;
 }
 html body.booklet table.data-table td, html body.booklet table.data-table th {
   padding: 0;
@@ -257,7 +312,7 @@ html body.booklet table.data-table tr > td.section-end:last-child, html body.boo
 }
 html body.booklet table.data-table > thead {
   display: table-header-group;
-  height: 1.1cm;
+  height: 1cm;
 }
 html body.booklet table.data-table > thead > tr:first-child {
   color: #fff;
@@ -316,7 +371,7 @@ html body.booklet table.data-table > tbody > tr.title-header-200 td.section-end:
 }
 html body.booklet table.data-table > tbody > tr.title-header-300 {
   font-weight: 900;
-  color: white;
+  color: black;
   background-color: #95C120;
   text-transform: uppercase;
 }
@@ -330,7 +385,7 @@ html body.booklet table.data-table > tfoot {
   display: table-row-group;
 }
 html body.booklet table.data-table > tbody > tr > td, html body.booklet table.data-table > tbody > tr > th, html body.booklet table.data-table > tfoot > tr > td, html body.booklet table.data-table > tfoot > tr > th, html body.booklet table.data-table > thead > tr > td, html body.booklet table.data-table > thead > tr > th {
-  padding: 2px 5.5px;
+  padding: 2px 4.5px;
   vertical-align: top;
 }
 html body.booklet .index {
@@ -338,8 +393,8 @@ html body.booklet .index {
   vertical-align: middle;
   float: left;
   margin-right: 0.25cm;
-  width: 15pt;
-  height: 15pt;
+  width: 16pt;
+  height: 16pt;
   background: #E0E79B;
   color: black;
   line-height: inherit;
@@ -351,23 +406,28 @@ html body.booklet .index {
 html body.booklet .row {
   display: block;
 }
+html body.booklet .row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 html body.booklet .row .column {
-  display: block;
+  float: left;
   width: 100%;
 }
 html body.booklet .row .column h3 {
-  font-size: 10pt;
+  font-size: 8pt;
 }
 html body.booklet .row .column.two {
-  width: 48%;
+  width: 49%;
   display: inline-block;
 }
 html body.booklet .row .column.two:first-child {
-  margin-right: 0.5cm;
+  margin-right: 0.25cm;
 }
 html body.booklet .row .column.three {
   display: inline-block;
-  width: 32%;
+  width: 32.5%;
   margin-right: 0.25cm;
 }
 html body.booklet .row .column.three:last-child {
@@ -390,22 +450,14 @@ html body.booklet .timestamp strong {
   font-style: normal;
   font-weight: 900;
 }
-html body.booklet article.stats-page {
-  page: stats;
+html body.booklet.data {
+  margin: -1.75cm;
 }
 html body.booklet article.portrait {
   page: portrait;
 }
-html body.booklet article.portrait.stats-page {
-  margin: 1.25cm 0;
-  page: stats;
-}
 html body.booklet article.landscape {
   page: landscape;
-}
-html body.booklet article.landscape.stats-page {
-  margin: 1.25cm 0.125cm;
-  page: stats;
 }
 html body.booklet article.new-section {
   align-items: center;
@@ -457,6 +509,31 @@ html body.booklet article#cover hr {
   text-align: center;
   margin: 1cm auto;
 }
+html body.booklet article.stats-page {
+  break-before: always;
+}
+html body.booklet article.stats-page h3 {
+  font-size: 10pt;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+html body.booklet article.stats-page h5 {
+  font-family: "Open Sans Condensed";
+  font-weight: 300;
+  font-style: italic;
+  font-size: 8pt;
+  margin-top: 0.05cm;
+  margin-bottom: 0.15cm;
+  margin-left: 0.85cm;
+}
+html body.booklet article.stats-page hr {
+  width: 100%;
+  height: 0px;
+  border: none;
+  border-top: 2px solid #d8d8d8;
+  text-align: center;
+  margin: 0 auto 0.35cm;
+}
 html body.booklet article#main-table-of-contents, html body.booklet article.section-table-of-contents {
   page: no-chapter;
 }
@@ -500,34 +577,14 @@ html body.booklet article#main-table-of-contents ul li a, html body.booklet arti
   color: inherit;
   text-decoration: inherit;
 }
-html body.booklet article#main-table-of-contents ul li a::before, html body.booklet article.section-table-of-contents ul li a::before {
-  content: target-text(attr(href));
-}
 html body.booklet article#main-table-of-contents ul li a::after, html body.booklet article.section-table-of-contents ul li a::after {
   font-weight: 700;
   color: #75bfec;
   content: target-counter(attr(href), page);
   float: right;
 }
-html body.booklet article.section-table-of-contents ul li {
-  margin: 0.5cm 0 0.1cm 0;
-}
-html body.booklet article.section-table-of-contents ul li:first-child {
-  margin: 0 0 0.1cm 0;
-}
 html body.booklet article.section-table-of-contents ul li a {
   font-weight: 700;
-}
-html body.booklet article.section-table-of-contents ul li a::after {
-  margin-top: -1.1cm;
-}
-html body.booklet article.section-table-of-contents ul li a .item {
-  margin: 0;
-}
-html body.booklet article.section-table-of-contents ul li a .item.caption {
-  font-family: "Open Sans Condensed";
-  font-weight: 300;
-  font-style: italic;
 }
 html body.booklet article#main-table-of-contents ul li {
   margin: 0 0 0.01cm 0.5cm;

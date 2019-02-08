@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from decimal import Decimal
 from utils import sort_by_column, \
-    read_csv_file, get_csv_file, group_locations, \
+    read_csv_file, get_csv_file, get_comps_csv_file, group_locations, \
     get_full_report_name, group_dz_locations, \
     get_total_row, get_comparables_total_row, get_comparable_rows
 
@@ -87,10 +87,6 @@ def generate_budget_report_from_csv(
 
             if 'yoy' in display_headers:
                 _dict.append(('YOY', (['yoy'], 1)))
-        # else:
-        #     (_, (_headers, _)) = header_meta
-        #     _dict.append(header_meta)
-        #     grayed_columns += [i for i in _headers if i != max(_headers)]
 
     if _dict:
         display_header_groupings = OrderedDict(_dict)
@@ -123,22 +119,27 @@ def generate_summary_report_from_csv(period='week'):
     (groupings, locations, origin_headers) = group_locations()
 
     sorted_rows = sort_by_column(groupings, rows, group_by_column='store')
-    grand_total = next(x for x in rows if x['store'] == "Grand_Total")
 
-    sorted_rows.append({
-        "store": "Grand Total",
-        "level": 100,
-        "traffic": grand_total["traffic"],
-        "orders": grand_total["orders"],
-        "conversion": grand_total["conversion"],
-        "sales": grand_total["sales"],
-        "dpt": grand_total["dpt"],
-        "units": grand_total["units"],
-        "upt": grand_total["upt"],
-        "tphw": grand_total["tphw"],
-        "sphw": grand_total["sphw"]})
+    grand_total = next(r for r in rows if r['store'] == "Grand_Total")
+    grand_total["level"] = 100
+    grand_total["store"] = "Grand Total"
+
+    sorted_rows.append(grand_total)
 
     return sorted_rows
+
+def generate_comps_report_from_csv():
+    (rows, headers) = get_comps_csv_file()
+    (groupings, locations, origin_headers) = group_locations()
+
+    sorted_rows = sort_by_column(groupings, rows, group_by_column='store')
+    grand_total = next(x for x in rows if x['store'] == "Grand_Total")
+    grand_total["level"] = 100
+    grand_total["store"] = "Grand Total"
+
+    sorted_rows.append(grand_total)
+
+    return (sorted_rows, headers)
 
 def generate_report_context(report_name, period=None, totalled_reports=None, comparable_reports=None):
     context = {
@@ -151,12 +152,21 @@ def generate_report_context(report_name, period=None, totalled_reports=None, com
 
     if report_name == 'summary':
         context['rows'] = generate_summary_report_from_csv(period=period)
+    elif report_name == 'comps':
+        context['prefix'] = ''
+        context['decimal_places'] = 2
+        context['suffix'] = ''
+        
+        (context['rows'], context['display_headers']) = generate_comps_report_from_csv()
+        context['display_headers'] = [h for h in context['display_headers'] if h != 'store']
+
+        template_name = "comp_report.html"
     elif report_name in (
         'dpp', 'dpt', 
         'upt', 'tphw', 
         'sphw', 'payments', 
         'traffic', 'orders',
-        'products', 
+        'products',
         'dz_orders', 'dz_payments'
     ):  
         header_name = group_by_column = label_column = None
@@ -204,6 +214,6 @@ def generate_report_context(report_name, period=None, totalled_reports=None, com
                 comparable_reports=comparable_reports,
                 group_by_column=group_by_column)
         
-        template_name = "budget_report.html"
+        template_name = "generic_report.html"
 
     return (template_name, context)

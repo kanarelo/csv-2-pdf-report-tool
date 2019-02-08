@@ -1,8 +1,7 @@
 import os
 import time
 
-from pdf_utils import \
-    generate_pdf_reportbook, generate_condensed_pdf
+from pdf_utils import generate_report_book
 
 import logging
 logger = logging.getLogger('weasyprint')
@@ -19,15 +18,8 @@ class Report(object):
         time.sleep(1)
         print("-" * 50)
         
-        pdf_binary = generate_condensed_pdf()
+        pdf_binary = generate_report_book()
         print("PDF report generation complete")
-
-        # for report_image in generate_condensed_pdf():
-        #     report_image.image.save(f"{output_directory}/{report_image.report.report_name}-{report_image.report.period}.png", "PNG", resolution=100)
-
-            # output_filename = os.path.join(os.path.dirname(__file__), output_directory, file_name)
-            # with open(output_filename, 'wb') as output_file:
-            #     output_file.write(pdf_binary)
 
 
 if __name__ == "__main__":

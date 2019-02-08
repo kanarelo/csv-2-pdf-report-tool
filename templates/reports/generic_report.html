@@ -22,6 +22,8 @@
                     {% for header in display_header_groupings[column_grouping][0] %}
                         <th class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">
                             {% if 'budget_diff' == header %}
+                            {% elif 'yoy' == header %}
+                                YOY
                             {% elif header.startswith('budget_') %}
                                 {{ header.split(" ")[1] }}
                             {% elif header %}
@@ -33,12 +35,14 @@
               {% else %}
                 {% for header in display_headers %}
                   <th class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">
-                      {% if 'budget_diff' == header %}
-                      {% elif header.startswith('budget_') %}
-                          {{ header.split(" ")[1] }}
-                      {% elif header %}
-                          {{ header.split(" ")[1] or header }}
-                      {% endif %}
+                        {% if 'budget_diff' == header %}
+                        {% elif 'yoy' == header %}
+                            YOY
+                        {% elif header.startswith('budget_') %}
+                            {{ header.split(" ")[1] }}
+                        {% elif header %}
+                            {{ header.split(" ")[1] or header }}
+                        {% endif %}
                   </th>
                 {% endfor %}
               {% endif %}
