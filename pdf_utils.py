@@ -229,8 +229,231 @@ def get_base64(image, image_format='png', as_string=True):
 
         return temp
 
+<<<<<<< HEAD
 def get_abs_path(url):
     return os.path.join(os.path.dirname(__file__), url)
 
 def generate_report_book():
     ReportBook.assemble_report_book()
+=======
+def generate_condensed_pdf(period=None, close_files=False):
+    template_env = utils.get_jinja_template_env()
+
+    def crop_image(im):
+        bg = PILImage.new(im.mode, im.size, im.getpixel((0,0)))
+        diff = ImageChops.difference(im, bg)
+        diff = ImageChops.add(diff, diff, 2.0, -100)
+        bbox = diff.getbbox()
+
+        if bbox:
+            return im.crop(bbox)
+
+    def stitch_images(images, max_horiz=np.iinfo(int).max):
+        n_images = len(images)
+        n_horiz = min(n_images, max_horiz)
+        h_sizes, v_sizes = [0] * n_horiz, [0] * (n_images // n_horiz)
+
+        for i, im in enumerate(images):
+            h, v = i % n_horiz, i // n_horiz
+            h_sizes[h] = max(h_sizes[h], im.size[0])
+            v_sizes[v] = max(v_sizes[v], im.size[1])
+
+        h_sizes, v_sizes = np.cumsum([0] + h_sizes), np.cumsum([0] + v_sizes)
+        im_grid = PILImage.new('RGB', (h_sizes[-1], v_sizes[-1]), color='white')
+
+        for i, im in enumerate(images):
+            im_grid.paste(im, (h_sizes[i % n_horiz], v_sizes[i // n_horiz]))
+
+        return im_grid
+
+    def crop_pdf_image(report_name, image, i=None):
+        cropped = crop_image(image)
+
+        if report_name not in ('dz_payments', 'dz_orders', None):
+            if i is not None:
+                (w, h) = cropped.size
+                if i != 0:
+                    cropped = cropped.crop((0, 46, w, h))
+                else:
+                    cropped = cropped.crop((0, 0, w, h - 40))
+        
+        return cropped
+
+    class ReportImage(object):
+        def __init__(self, report, image_number, image):
+            self.report = report
+            self.image_number = image_number
+            self.image  = image
+
+        def get_base64(self):
+            return get_base64(self.image)
+
+        @staticmethod
+        def generate_pdf_table_of_images(report_name=None, period=None):
+            reports = generate_pdf_reportbook_reports(
+                report_name=report_name,
+                period=period)
+                
+            for (i, report) in enumerate(reports):
+                with report.pdf_file as pdf_file:
+                    pdf_file.seek(0)
+
+                    pdf_images = convert_from_bytes(
+                        pdf_file.read(), 
+                        transparent=True, 
+                        use_cropbox=True, 
+                        fmt='png')
+
+                    if len(report.pages) > 0:
+                        cropped_images = [
+                            crop_pdf_image(report_name, pdf_image, i) 
+                                for (i, pdf_image) in enumerate(pdf_images) ]
+                        final_image = stitch_images(cropped_images, 1)
+                    else:
+                        final_image = crop_pdf_image(pdf_image)
+
+                    yield ReportImage(report, (i + 1), final_image)
+
+    class CondensedSection(object):
+        def __init__(self, title, start_page, report_names, period):
+            self.title = title
+            self.start_page = start_page
+            self.period = period
+
+            self.report_names = report_names
+
+            self.condensed_pages = None
+            self.page_mappings = None
+            self.report_metas = None
+
+        def get_condensed_pages(self):
+            if self.condensed_pages is None:
+                self.condensed_pages = \
+                    CondensedPage\
+                        .generate_condensed_pages(self)
+
+            return self.condensed_pages
+
+        def get_page_mappings(self): 
+            if self.page_mappings is None: 
+                self.page_mappings = get_page_mappings(start_page=self.start_page)
+            return self.page_mappings
+
+        def get_report_metas(self): 
+            if self.report_metas is None:
+                self.report_metas = [
+                    get_report_meta(report_name, self.period) 
+                        for report_name in self.report_names ]
+            return self.report_metas
+
+        def get_report_page(self, report_name):
+            for page_mapping in self.get_page_mappings():
+                if report_name in page_mapping.reports:
+                    return page_mapping.page
+
+    def get_abs_path(url):
+        return os.path.join(os.path.dirname(__file__), url)
+
+    class ReportCover(object):
+        def __init__(self, sections, document):
+            self.sections = sections
+            self.document = document
+
+            self.pages = None
+            self.pdf_file_reader = None
+
+        def get_no_of_pages():
+            return len(self.document.pages)
+
+        def get_pdf_file_reader(self):
+            if self.pdf_file_reader is None:
+                temp = io.BytesIO()
+                self.document.write_pdf(temp)
+                temp.seek(0)
+
+                pdf_file_reader = self.pdf_file_reader = pyPdf.PdfFileReader(temp)
+
+            return self.pdf_file_reader
+
+        def get_pdf_pages(self):
+            if self.pages is None:
+                self.pages = [
+                    self.get_pdf_file_reader().getPage(i) for i in
+                        range(self.get_pdf_file_reader().getNumPages()) ]
+
+            return self.pages
+
+        @staticmethod
+        def assemble_report():
+            report_cover = ReportCover.generate_report_cover()
+            return bind_pdf_pages(report_cover.get_pdf_pages())
+
+        @staticmethod
+        def generate_report_cover():
+            report_names = get_report_names()
+            sections = [
+                CondensedSection('WEEK 2019-W36', 6, report_names, 'week'),
+                CondensedSection('QUARTER 2019-Q1', 13, report_names, 'quarter'),
+                CondensedSection('PERIOD 2019-P01', 20, report_names, 'period'),
+                CondensedSection('YEAR 2019', 27, report_names, 'year') ]
+
+            context = {
+                'sections': sections,
+                'generated_on': '1/2/2019',
+                'fiscal_period': '2019-W36',
+                'generated_at': '12:23pm',
+                'get_logo': lambda: get_base64(get_abs_path("assets/bonlogo.jpg"))}
+            report_book_template = template_env.get_template(f"templates/report_book.html")
+            report_book_html_content = report_book_template.render(**context)
+
+            document = get_weasyprint_document(report_book_html_content)
+
+            return ReportCover(sections, document)
+
+    
+    class CondensedPage(object):
+        def __init__(self, section, images, page_mapping, i):
+            self.images = images
+            self.section = section
+            self.page_mapping = page_mapping
+            self.i = i
+
+            self.pdf_file_reader = None
+
+        def get_pdf_file_reader(self):
+            if self.pdf_file_reader is None:
+                self.pdf_file_reader = pyPdf.PdfFileReader(self.pdf_file)
+            
+            return self.pdf_file_reader
+
+        def get_html(self):
+            pdf_template = template_env\
+                .get_template(f"templates/image_holders/holder-{(self.i + 1)}.html")
+
+            context = {
+                'condensed_page': self,
+                'images': {
+                    image.report.report_name: image
+                        for image in self.images }}
+
+            return pdf_template.render(**context)
+
+        @staticmethod
+        def generate_condensed_pages(section):
+            period = section.period
+            start_page = section.start_page
+
+            images = list(ReportImage.generate_pdf_table_of_images(period=period))
+
+        
+            for period in (period and [period] or get_periods()):
+                period_images = [image for image in images if image.report.period == period]
+
+                for (i, page_mapping) in enumerate(get_page_mappings(start_page=start_page)):
+                    mapping_images = [image 
+                        for image in period_images 
+                            if image.report.report_name in page_mapping.reports ]
+
+                    yield CondensedPage(section, mapping_images, page_mapping, i)
+
+>>>>>>> 33e57548532c3633be6c733a86df8efb1f777b92
