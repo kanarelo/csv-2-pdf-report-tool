@@ -3,9 +3,8 @@ from collections import OrderedDict
 
 from decimal import Decimal
 from utils import sort_by_column, \
-    read_csv_file, get_csv_file, get_comps_csv_file, group_locations, \
-    get_full_report_name, group_dz_locations, \
-    get_total_row, get_comparables_total_row, get_comparable_rows
+    read_csv_file, get_csv_file, group_locations, \
+    get_full_report_name, group_dz_locations, get_total_row
 
 def generate_budget_report_from_csv(
     report_name, 
@@ -26,7 +25,7 @@ def generate_budget_report_from_csv(
         else:
             (groupings, locations, origin_headers) = group_locations(period=period)
 
-        rows = sort_by_column(groupings, rows, group_by_column=group_by_column)
+        grouped_rows = sort_by_column(groupings, rows, group_by_column=group_by_column)
 
     display_headers = [
         header 
@@ -93,26 +92,20 @@ def generate_budget_report_from_csv(
     
     if totalled_reports and (report_name in totalled_reports):
         total_row = get_total_row(rows, group_by_column=group_by_column)
-        rows.append(total_row)
+        grouped_rows.append(total_row)
 
-    if not dz:
-        if comparable_reports and (report_name in comparable_reports):
-            comparable_rows = list(get_comparable_rows(
-                rows, 
-                group_by_column=group_by_column, 
-                groupings=groupings, 
-                period=period,
-                row_headers=headers,
-                report_name=report_name,
-                origin_headers=origin_headers))
+    comp_rows = [row for row in rows if row[label_column].startswith('COMP_')]
+    if comp_rows:
+        for row in comp_rows:
+            if row[label_column] == 'COMP_TOTAL':
+                row['level'] = 300
+                row[label_column] = "COMP STORES"
+            else:
+                row[label_column] = f"COMP STORES - {row[label_column].split('_')[1]}"
+                row['level'] = 200
+    comp_rows = sorted(comp_rows, key=lambda row: row[label_column])
     
-            if comparable_rows:
-                total_comparable_row = get_comparables_total_row(comparable_rows, headers)
-    
-                rows.append(total_comparable_row)
-                rows += comparable_rows
-
-    return (rows, display_headers, display_header_groupings, grayed_columns)
+    return ((grouped_rows + comp_rows), display_headers, display_header_groupings, grayed_columns)
 
 def generate_summary_report_from_csv(period='week'):
     (rows, headers) = get_csv_file('summary', period=period)
@@ -128,8 +121,8 @@ def generate_summary_report_from_csv(period='week'):
 
     return sorted_rows
 
-def generate_comps_report_from_csv():
-    (rows, headers) = get_comps_csv_file()
+def generate_comps_report_from_csv(period='week'):
+    (rows, headers) = get_csv_file('comps', period=period)
     (groupings, locations, origin_headers) = group_locations()
 
     sorted_rows = sort_by_column(groupings, rows, group_by_column='store')
@@ -157,7 +150,7 @@ def generate_report_context(report_name, period=None, totalled_reports=None, com
         context['decimal_places'] = 2
         context['suffix'] = ''
         
-        (context['rows'], context['display_headers']) = generate_comps_report_from_csv()
+        (context['rows'], context['display_headers']) = generate_comps_report_from_csv(period=period)
         context['display_headers'] = [h for h in context['display_headers'] if h != 'store']
 
         template_name = "comp_report.html"

@@ -19,9 +19,6 @@ def get_css():
 def get_csv_file(report_name, period=None):
     return read_csv_file(f"{get_base_path()}/{(period or 'week')}_data/{report_name}.csv")
 
-def get_comps_csv_file():
-    return read_csv_file(f"{get_base_path()}/comp_data/comps.csv")
-
 def group_dz_locations(period=None):
     (locations, headers) = get_csv_file('origin_dz', period='week')
     grouped = {}
@@ -61,57 +58,6 @@ def read_csv_file(csv_file):
 
     return (csv_list, reader.fieldnames)
 
-def get_comparable_rows(rows, 
-    group_by_column='store', 
-    groupings=None, 
-    row_headers=None, 
-    report_name=None,
-    origin_headers=None, 
-    period='week'
-):
-    for key in sorted((groupings or {}).keys()):
-        comparable_row = OrderedDict()
-        
-        for region in sorted(groupings[key]):
-            if type(groupings[key]) == dict:
-                zone = key
-                for location in sorted(groupings[zone][region], key=lambda x: x['zone']):
-                    if location.get("is_comp_%s" % period).lower() == 'true':
-                        comparable_row['store'] = ("Comp Stores - %s" % zone)
-                        comparable_row['level'] = 200
-
-                        for header in row_headers:
-                            if header not in (group_by_column,):
-                                if header not in comparable_row:
-                                    comparable_row[header] = 0
-
-                                comparable_row[header] += sum(
-                                    Decimal(row.get(header) or '0.0') 
-                                        for row in rows 
-                                            if (row[group_by_column] == location['legacy_id'] and row['level'] == 3))
-
-            elif type(groupings[key]) == list:
-                country = key
-
-                for location in sorted(groupings[country], key=lambda x: x['zone']):
-                    pass
-
-        if comparable_row:
-            yield comparable_row
-
-def get_comparables_total_row(comparable_rows, headers):
-    total_row = {'level': 300}
-
-    for column in headers:
-        if column == "store":
-            value = "Comp Stores"
-        else:
-            value = sum(Decimal(row.get(column, '0.0')) for row in comparable_rows)
-        
-        total_row[column] = value
-
-    return total_row
-
 def get_total_row(rows, group_by_column='store'):
     total_row = {}
 
@@ -134,7 +80,7 @@ def get_total_row(rows, group_by_column='store'):
         else:
             scanning = False
 
-    total_row[group_by_column] = "Total"
+    total_row[group_by_column] = "Grand Total"
     total_row["level"] = 100
 
     return total_row

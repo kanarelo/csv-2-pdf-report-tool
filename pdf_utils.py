@@ -41,19 +41,8 @@ def get_report_names():
         'dpt',
         'upt',
         'tphw', #-3
-        'sphw' ]
-
-def get_comparable_reports():
-    return [
-        'payments',
-        'orders',
-        'products',
-        'traffic',
-        'dpp',
-        'dpt',
-        'upt',
-        'tphw',
-        'sphw']
+        'sphw',
+        'comps' ]
 
 def get_totalled_reports(): 
     return [
@@ -90,8 +79,7 @@ def create_report(report_name, period, index=0):
     (template_name, context) = generate_report_context(
         report_name, 
         period=period, 
-        totalled_reports=get_totalled_reports(),
-        comparable_reports=get_comparable_reports())
+        totalled_reports=get_totalled_reports())
 
     pdf_template = utils\
         .get_jinja_template_env()\
@@ -202,9 +190,6 @@ class ReportBook(object):
             .get_template(f"templates/report_book.html")
         report_book_html_content = report_book_template.render(**context)
 
-        comps_report_html = create_report('comps', period, index=12)
-        report_book_html_content = f'{report_book_html_content}\n{comps_report_html}'
-
         document = get_weasyprint_document(report_book_html_content)
         return ReportBook(document)
 
@@ -233,4 +218,4 @@ def get_abs_path(url):
     return os.path.join(os.path.dirname(__file__), url)
 
 def generate_report_book():
-    ReportBook.assemble_report_book()
+    ReportBook.assemble_report_booklets()
