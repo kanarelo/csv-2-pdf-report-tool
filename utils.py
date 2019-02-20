@@ -85,41 +85,65 @@ def get_total_row(rows, group_by_column='store'):
 
     return total_row
 
-def sort_by_column(groupings, rows, group_by_column='store'):
+def sort_by_column(report_name, groupings, rows, group_by_column='store'):
     sorted_rows = []
 
     for zone in sorted(groupings.keys()):
+
         for row in rows:
             group_by = row[group_by_column]
 
             if group_by.lower() == zone.lower():
-                row['level'] = 1
-                sorted_rows.append(row)
+                if 'level' not in row:
+                    row['level'] = 1
+                    sorted_rows.append(row)
+                    break
 
         if type(groupings[zone]) == dict:
             for region in sorted(groupings[zone].keys()):
                 for row in rows:
                     group_by = row[group_by_column]
 
-                    if group_by.lower() == region.lower():
-                        row['level'] = 2
-                        sorted_rows.append(row)
+                    if group_by.lower() == region.lower() == zone.lower():
+                        if 'level' not in row:
+                            row['level'] = 2
+                            sorted_rows.append(row)
+
+                    elif group_by.lower() == region.lower():
+                        if 'level' not in row:
+                            row['level'] = 2
+                            sorted_rows.append(row)
 
                 for location in sorted(groupings[zone][region], key=lambda x: x['legacy_id']):
                     for row in rows:
                         group_by = row[group_by_column]
                         
                         if group_by.lower() == location.get('legacy_id', '').lower():
-                            row['level'] = 3
-                            sorted_rows.append(row)
+                            if 'level' not in row:
+                                row['level'] = 3
+                                sorted_rows.append(row)
         else:
             for location in sorted(groupings[zone], key=lambda x: x['country']):
                 for row in rows:
                     group_by = row[group_by_column]
                     
                     if group_by.lower() == location.get('region').lower():
-                        row['level'] = 3
-                        sorted_rows.append(row)
+                        if 'level' not in row:
+                            row['level'] = 3
+                            sorted_rows.append(row)
+
+    # for i, row in enumerate(sorted_rows):
+    #     for j, similar_row in enumerate(sorted_rows):
+    #         if i == j:
+    #             continue
+    #         else:
+    #             if row == similar_row:
+    #                 continue
+    #             elif row[group_by_column] == similar_row[group_by_column]:
+    #                 if row['level'] == similar_row['level']:
+    #                     similar_row['level'] += 1
+    #                     print('row', row, similar_row)
+    #                     break
 
     return sorted_rows
 

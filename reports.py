@@ -25,7 +25,7 @@ def generate_budget_report_from_csv(
         else:
             (groupings, locations, origin_headers) = group_locations(period=period)
 
-        grouped_rows = sort_by_column(groupings, rows, group_by_column=group_by_column)
+        grouped_rows = sort_by_column(report_name, groupings, rows, group_by_column=group_by_column)
 
     display_headers = [
         header 
@@ -107,11 +107,11 @@ def generate_budget_report_from_csv(
     
     return ((grouped_rows + comp_rows), display_headers, display_header_groupings, grayed_columns)
 
-def generate_summary_report_from_csv(period='week'):
+def generate_summary_report_from_csv(report_name, period='week'):
     (rows, headers) = get_csv_file('summary', period=period)
     (groupings, locations, origin_headers) = group_locations()
 
-    sorted_rows = sort_by_column(groupings, rows, group_by_column='store')
+    sorted_rows = sort_by_column(report_name, groupings, rows, group_by_column='store')
 
     grand_total = next(r for r in rows if r['store'] == "Grand_Total")
     grand_total["level"] = 100
@@ -121,11 +121,11 @@ def generate_summary_report_from_csv(period='week'):
 
     return sorted_rows
 
-def generate_comps_report_from_csv(period='week'):
+def generate_comps_report_from_csv(report_name, period='week'):
     (rows, headers) = get_csv_file('comps', period=period)
     (groupings, locations, origin_headers) = group_locations()
 
-    sorted_rows = sort_by_column(groupings, rows, group_by_column='store')
+    sorted_rows = sort_by_column(report_name, groupings, rows, group_by_column='store')
     grand_total = next(x for x in rows if x['store'] == "Grand_Total")
     grand_total["level"] = 100
     grand_total["store"] = "Grand Total"
@@ -144,13 +144,13 @@ def generate_report_context(report_name, period=None, totalled_reports=None, com
         context['period'] = period
 
     if report_name == 'summary':
-        context['rows'] = generate_summary_report_from_csv(period=period)
+        context['rows'] = generate_summary_report_from_csv(report_name, period=period)
     elif report_name == 'comps':
         context['prefix'] = ''
         context['decimal_places'] = 2
         context['suffix'] = ''
         
-        (context['rows'], context['display_headers']) = generate_comps_report_from_csv(period=period)
+        (context['rows'], context['display_headers']) = generate_comps_report_from_csv(report_name, period=period)
         context['display_headers'] = [h for h in context['display_headers'] if h != 'store']
 
         template_name = "comp_report.html"

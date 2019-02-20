@@ -89,6 +89,7 @@ def create_report(report_name, period, index=0):
         context['report_index'] = (index + 1)
 
     report_meta = get_report_meta(report_name, period)
+    
     context['full_report_name'] = report_meta.full_report_name
     context['detailed_caption'] = report_meta.detailed_caption
     context['orientation'] = report_meta.orientation
@@ -189,6 +190,9 @@ class ReportBook(object):
             .get_jinja_template_env()\
             .get_template(f"templates/report_book.html")
         report_book_html_content = report_book_template.render(**context)
+
+        with open(f'{period}_book.html', 'w+') as _file:
+            _file.write(report_book_html_content)
 
         document = get_weasyprint_document(report_book_html_content)
         return ReportBook(document)
