@@ -166,33 +166,30 @@ class ReportBook(object):
                 ReportBooklet(date.strftime(f'QUARTER %Y-Q{get_quarter(date)}'), report_names, 'quarter'),
                 ReportBooklet(date.strftime('PERIOD %Y-P%m'), report_names, 'period'),
                 ReportBooklet(date.strftime('YEAR %Y'), report_names, 'year')]
-        elif period == 'week':
+        else:
+            if period == 'week':
+                fiscal_period_format = '%Y-W%U'
+            elif period == 'quarter':
+                fiscal_period_format = f'%Y-Q{get_quarter(date)}'
+            elif period == 'period':
+                fiscal_period_format = '%Y-P%m'
+            elif period == 'year':
+                fiscal_period_format = '%Y'
+            
             booklets.append(
-                ReportBooklet(date.strftime('WEEK %Y-W%U'), report_names, 'week'))
-        elif period == 'quarter':
-            booklets.append(
-                ReportBooklet(date.strftime(f'QUARTER %Y-Q{get_quarter(date)}'), report_names, 'quarter'))
-        elif period == 'period':
-            booklets.append(
-                ReportBooklet(date.strftime('PERIOD %Y-P%m'), report_names, 'period'))
-        elif period == 'year':
-            booklets.append(
-                ReportBooklet(date.strftime('YEAR %Y'), report_names, 'year'))
-
+                ReportBooklet(date.strftime(f'{period.upper()} {fiscal_period_format}'), report_names, period))
+        
         context = {
             'booklets': booklets,
             'period_pct_complete': '56%',
             'generated_on': date.strftime('%d/%m/%Y'),
-            'fiscal_period': date.strftime('%Y-W%U'),
+            'fiscal_period': date.strftime(fiscal_period_format),
             'generated_at': date.strftime('%I:%M%p'),
             'get_logo': lambda: get_base64(get_abs_path("assets/bonlogo.jpg"))}
         report_book_template = utils\
             .get_jinja_template_env()\
             .get_template(f"templates/report_book.html")
         report_book_html_content = report_book_template.render(**context)
-
-        with open(f'{period}_book.html', 'w+') as _file:
-            _file.write(report_book_html_content)
 
         document = get_weasyprint_document(report_book_html_content)
         return ReportBook(document)
