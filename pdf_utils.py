@@ -60,19 +60,19 @@ def get_report_meta(report_name, period):
         postfix = f'this {period}, last {period} and last year same {period}.'
 
     return {
-        'summary': ReportMeta('Summary', 'landscape', 'summary', f'Overview of the main KPIs for the current {period}.'),
+        'summary': ReportMeta('Summary', 'portrait', 'summary', f'Overview of the main KPIs for the current {period}.'),
         'dz_payments': ReportMeta('Sales per Delivery Region', 'landscape', 'dz_payments', f'Payments made by delivery region, separated by Web/Retail for {postfix}'),
         'dz_orders': ReportMeta('Orders per Delivery Region', 'portrait', 'dz_orders', f'Orders made by delivery region, separated by Web/Retail for {postfix}'),
         'payments': ReportMeta('Sales', 'portrait', 'payments', f'Payments made by store, {postfix}'),
         'orders': ReportMeta('Orders', 'portrait', 'orders', f'Orders made by store, {postfix}'),
-        'products': ReportMeta('Products', 'portrait', 'products', f'Products sold (unit) by store, {postfix}'),
+        'products': ReportMeta('Units', 'portrait', 'products', f'Unit sold (product) by store, {postfix}'),
         'traffic': ReportMeta('Traffic', 'portrait', 'traffic', f'Visits by store, {postfix}'),
-        'dpp': ReportMeta('Dollars Per Product', 'portrait', 'dpp', f'Payments per product sold (unit) by store, {postfix}'),
-        'dpt': ReportMeta('Dollars Per Order', 'portrait', 'dpt', f'Payments per orders by store, {postfix}'),
-        'upt': ReportMeta('Units Per Order', 'portrait', 'upt', f'Units per order by store, {postfix}'),
-        'tphw': ReportMeta('Traffic Per Worked Hours', 'portrait', 'tphw', f'Visits per hour worked by store, {postfix}'),
-        'sphw': ReportMeta('Sales Per Worked Hours', 'portrait', 'sphw', f'Sales per hour worked by store, {postfix}'),
-        'comps': ReportMeta('Period Performance Comparison', 'portrait', 'comps', f'Period performance comparison by store, {postfix}'),
+        'dpp': ReportMeta('Units Price', 'portrait', 'dpp', f'Payments per unit sold (product) by store, {postfix}'),
+        'dpt': ReportMeta('Average order sales', 'portrait', 'dpt', f'Payments per orders by store, {postfix}'),
+        'upt': ReportMeta('Units per transaction', 'portrait', 'upt', f'Units per order by store, {postfix}'),
+        'tphw': ReportMeta('Traffic per worked hours (TPWH)', 'portrait', 'tphw', f'Visits per hour worked by store, {postfix}'),
+        'sphw': ReportMeta('Sales per worked hours (SPWH)', 'portrait', 'sphw', f'Sales per hour worked by store, {postfix}'),
+        'comps': ReportMeta('Comparable store performance', 'portrait', 'comps', f'Comparable store performance by store, {postfix}'),
     }[report_name]
 
 def create_report(report_name, period, index=0):
@@ -156,16 +156,17 @@ class ReportBook(object):
     def generate_report_book(date=None, period=None):
         report_names = get_report_names()
         booklets = []
+        fiscal_period_format = '%Y'
 
         if date is None:
             date = datetime.datetime.now()
 
         if period is None:
             booklets += [
-                ReportBooklet(date.strftime('WEEK %Y-W%U'), report_names, 'week'),
-                ReportBooklet(date.strftime(f'QUARTER %Y-Q{get_quarter(date)}'), report_names, 'quarter'),
-                ReportBooklet(date.strftime('PERIOD %Y-P%m'), report_names, 'period'),
-                ReportBooklet(date.strftime('YEAR %Y'), report_names, 'year')]
+                ReportBooklet(date.strftime('WEEK FY%Y-W%U'), report_names, 'week'),
+                ReportBooklet(date.strftime(f'QUARTER FY%Y-Q{get_quarter(date)}'), report_names, 'quarter'),
+                ReportBooklet(date.strftime('PERIOD FY%Y-P%m'), report_names, 'period'),
+                ReportBooklet(date.strftime('YEAR FY%Y'), report_names, 'year')]
         else:
             if period == 'week':
                 fiscal_period_format = '%Y-W%U'
@@ -173,17 +174,15 @@ class ReportBook(object):
                 fiscal_period_format = f'%Y-Q{get_quarter(date)}'
             elif period == 'period':
                 fiscal_period_format = '%Y-P%m'
-            elif period == 'year':
-                fiscal_period_format = '%Y'
             
             booklets.append(
-                ReportBooklet(date.strftime(f'{period.upper()} {fiscal_period_format}'), report_names, period))
+                ReportBooklet(date.strftime(f'{period.upper()} FY{fiscal_period_format}'), report_names, period))
         
         context = {
             'booklets': booklets,
             'period_pct_complete': '56%',
             'generated_on': date.strftime('%d/%m/%Y'),
-            'fiscal_period': date.strftime(fiscal_period_format),
+            'fiscal_period': date.strftime(f'FY{fiscal_period_format}'),
             'generated_at': date.strftime('%I:%M%p'),
             'get_logo': lambda: get_base64(get_abs_path("assets/bonlogo.jpg"))}
         report_book_template = utils\
@@ -219,4 +218,4 @@ def get_abs_path(url):
     return os.path.join(os.path.dirname(__file__), url)
 
 def generate_report_book():
-    ReportBook.assemble_report_booklets()
+    ReportBook.assemble_report_book()

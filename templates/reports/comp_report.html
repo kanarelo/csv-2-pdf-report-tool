@@ -21,6 +21,8 @@
                     <th class="digit {% if 'yoy' in header %}section-end{% endif %}">
                         {% if 'yoy' in header %}
                             YOY
+                        {% elif 'dpt' == header %}
+                            Unit Sales
                         {% elif header %}
                             {{ (header.split(" ")[1] or header).capitalize() }}
                         {% endif %}
@@ -34,7 +36,11 @@
                     <td class="label">{{ row['store'] }}</td>
                     {% for header in display_headers %}
                         {% if 'yoy' in header %}
+                            <td class="digit section-end">{{ "{0:+,.2f}%".format(row[header]|float) }}</td>
+                        {% elif 'conversion' in header %}
                             <td class="digit section-end">{{ "{:,.2f}%".format(row[header]|float) }}</td>
+                        {% elif 'dpt' == header or 'sales' == header %}
+                            <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">${{ ("{:,.2f}").format(row[header]|float) }}</td>
                         {% elif header in ('visits', 'units') %}
                             <td class="digit">{{ "{0:,}".format(row[header]|int) }}</td>
                         {% else %}

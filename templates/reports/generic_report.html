@@ -56,7 +56,9 @@
                     {% for column_grouping in display_header_groupings.keys() %}
                         {% for header in display_header_groupings[column_grouping][0] %}
                             {% if 'budget_diff' == header or 'yoy' == header %}
-                                <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ ("{:,.2f}%").format(row[header]|float) }}</td>
+                                <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ ("{0:+,.2f}%").format(row[header]|float) }}</td>
+                            {% elif 'conversion' == header %}
+                                <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ ("{:,.2f}%").format(row[header]|float) }}%</td>
                             {% else %}
                                 <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ (prefix + ("{:,.%df}" % decimal_places) + suffix).format(row[header]|float) }}</td>
                             {% endif %}
@@ -64,11 +66,13 @@
                     {% endfor %}
                   {% else %}
                     {% for header in display_headers %}
-                      {% if 'budget_diff' == header or 'yoy' == header %}
-                          <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ ("{:,.2f}%").format(row[header]|float) }}</td>
-                      {% else %}
-                          <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ (prefix + ("{:,.%df}" % decimal_places) + suffix).format(row[header]|float) }}</td>
-                      {% endif %}
+                        {% if 'budget_diff' == header or 'yoy' == header %}
+                            <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ ("{0:+,.2f}%").format(row[header]|float) }}</td>
+                        {% elif 'conversion' == header %}
+                            <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ ("{:,.2f}%").format(row[header]|float) }}%</td>
+                        {% else %}
+                            <td class="digit {% if header in grayed_columns %}grayed{% endif %} {% if loop.last %}section-end{% endif %}">{{ (prefix + ("{:,.%df}" % decimal_places) + suffix).format(row[header]|float) }}</td>
+                        {% endif %}
                     {% endfor %}
                   {% endif %}
               </tr>
